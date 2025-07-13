@@ -5,9 +5,9 @@
 This session presents an end-to-end demonstration using the recently launched Databricks Free Edition, a no-cost, non-commercial use version of the Databricks platform for students, educators, and hobbyists. The entire workflow showcases how to seamlessly build and operationalize both traditional Machine Learning (ML) and agentic solutions, leveraging open-source integrations. The demo is hands-on, with live code and direct GitHub repo integration in-session.
 
 ### Key Learning Objectives
-Experience Databricks’ modern open platform from data ingestion through productionization
-Understand open standards, open source, and cloud-native best practices in a reproducible, academic context
-Explore both declarative data engineering and agentic orchestration patterns
+- Experience Databricks’ modern open platform from data ingestion through productionization
+- Understand open standards, open source, and cloud-native best practices in a reproducible, academic context
+- Explore both declarative data engineering and agentic orchestration patterns
 
 ### End-to-End Workflow Components
 1. Free Account Setup
