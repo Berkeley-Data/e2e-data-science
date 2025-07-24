@@ -1,0 +1,14 @@
+name: my_env
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - pip<=24.2
+  - pip:
+    - mlflow==2.22.0
+    - cloudpickle==3.0.0
+    - numpy==1.23.5
+    - psutil==5.9.0
+    - scikit-learn==1.3.0
+    - scipy==1.11.1
+    - xgboost==3.0.2
