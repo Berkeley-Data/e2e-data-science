@@ -1,10 +1,6 @@
 import logging
 import os
 import streamlit as st
-#from model_serving_utils import query_endpoint
-
-#import sys
-#sys.path.append('/Workspace/Users/cathy.snell@databricks.com/e2e-data-science/lakehouse-iot-platform/05-Generative-AI')
 from agent import AGENT
 
 # Set up logging
@@ -60,11 +56,6 @@ if prompt := st.chat_input("What is up?"):
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
         # Query the Databricks serving endpoint
-#        assistant_response = query_endpoint(
-#            endpoint_name=os.getenv("SERVING_ENDPOINT"),
-#            messages=st.session_state.messages,
-#            max_tokens=400,
-#        )["content"]
         assistant_response = ask_agent(st.session_state.messages)
         st.markdown(assistant_response)
 
