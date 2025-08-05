@@ -75,7 +75,7 @@ tools.extend(uc_toolkit.tools)
 
 def create_tool_calling_agent(
     model: LanguageModelLike,
-    tools: Union[ToolNode, Sequence[BaseTool]],#Tools can be either an ToolNode or a Sequence[BaseTool]
+    tools: Union[ToolNode, Sequence[BaseTool]],
     system_prompt: Optional[str] = None,
 #):
 ) -> CompiledGraph:
