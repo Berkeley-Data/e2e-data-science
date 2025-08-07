@@ -45,9 +45,11 @@ This demo encapsulates the state-of-the-art in reproducible, open science workfl
 | Governance | Unity Catalog | Yes | Data discoverability/security |
 | EDA | Python, Genie | Yes | Modern open EDA methods |
 | ML/Agent | MLflow 3, Agents | Yes | Model and orchestration lifecycle |
-| Deployment | MCP | Yes | Open model serving |
+| Deployment | Model Serving, MCP, Playground | Yes | Open model serving with function calling |
 | App Integration | Streamlit/React | Yes | App-building with live ML agents |
 
 The session is designed to inspire, inform, and empower early-career researchers with direct exposure to end-to-end, open-source-powered analytics and AI workflows.
+
+## TODO: Instructions for getting started -> Navigation to first notebook.
 
 
