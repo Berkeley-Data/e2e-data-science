@@ -3,8 +3,10 @@ from typing import Any, Generator, Optional, Sequence, Union
 import mlflow
 from databricks_langchain import (
     ChatDatabricks,
-    UCFunctionToolkit,
     VectorSearchRetrieverTool,
+    DatabricksFunctionClient,
+    UCFunctionToolkit,
+    set_uc_function_client,
 )
 from langchain_core.language_models import LanguageModelLike
 from langchain_core.runnables import RunnableConfig, RunnableLambda
@@ -21,52 +23,49 @@ from mlflow.types.agent import (
     ChatAgentResponse,
     ChatContext,
 )
+
+mlflow.langchain.autolog()
+
+client = DatabricksFunctionClient()
+set_uc_function_client(client)
+
 ############################################
 # Define your LLM endpoint and system prompt
 ############################################
-# TODO: Replace with your model serving endpoint
 LLM_ENDPOINT_NAME = "databricks-meta-llama-3-3-70b-instruct"
 llm = ChatDatabricks(endpoint=LLM_ENDPOINT_NAME)
 
-# TODO: Update with your system prompt
-system_prompt = """
-Act as an assistant for wind turbine maintenance technicians.
+system_prompt = """Act as an assistant for wind turbine maintenance technicians.
     These are the tools you can use to answer questions:
+      - turbine_specifications_retriever: takes turbine_id as input and retrieves the sensor_readings.
       - turbine_maintenance_predictor: takes as input sensor_readings and predicts whether or not a turbine is at risk of failure.
         Use turbine_specifications_retriever to get the current status.
       - turbine_maintenance_guide_retriever: send the question, model and error code to get the relevant turbine part maintenance guide to assist the user with maintenance operation.
-      - turbine_specifications_retriever: takes turbine_id as input and retrieves turbine specifications.
     
 
 If a user gives you a turbine ID, first look up that turbine's information with turbine_specifications_retriever. 
-If a user asks for recommendations on how to do maintenance on a turbine, use the maintenance guide to search how to maintain the parts and provide guidance on the steps required to fix the turbines"""
+If a user asks for recommendations on how to do maintenance on a turbine, use the maintenance guide to search how to maintain the parts and provide guidance on the steps required to fix the turbines
+"""
 
 ###############################################################################
 ## Define tools for your agent, enabling it to retrieve data or take actions
 ## beyond text generation
 ## To create and see usage examples of more tools, see
-## https://docs.databricks.com/en/generative-ai/agent-framework/agent-tool.html
+## https://docs.databricks.com/generative-ai/agent-framework/agent-tool.html
 ###############################################################################
 tools = []
 
 # You can use UDFs in Unity Catalog as agent tools
-# Below, we add the `system.ai.python_exec` UDF, which provides
-# a python code interpreter tool to our agent
-# You can also add local LangChain python tools. See https://python.langchain.com/docs/concepts/tools
-
-# TODO: Add additional tools
-uc_tool_names = [#"system.ai.python_exec", 
-                 "main.dbdemos_iot_turbine.turbine_maintenance_guide_retriever",
-                 "main.dbdemos_iot_turbine.turbine_maintenance_predictor",
-                 "main.dbdemos_iot_turbine.turbine_specifications_retriever"]
+uc_tool_names = ["main.dbdemos_iot_turbine.turbine_specifications_retriever", "main.dbdemos_iot_turbine.turbine_maintenance_predictor", "main.dbdemos_iot_turbine.turbine_maintenance_guide_retriever"]
 uc_toolkit = UCFunctionToolkit(function_names=uc_tool_names)
 tools.extend(uc_toolkit.tools)
 
-# Use Databricks vector search indexes as tools
-# See https://docs.databricks.com/en/generative-ai/agent-framework/unstructured-retrieval-tools.html
-# for details
 
-# TODO: Add vector search indexes
+# # (Optional) Use Databricks vector search indexes as tools
+# # See https://docs.databricks.com/generative-ai/agent-framework/unstructured-retrieval-tools.html
+# # for details
+#
+# # TODO: Add vector search indexes as tools or delete this block
 # vector_search_tools = [
 #         VectorSearchRetrieverTool(
 #         index_name="",
@@ -75,8 +74,6 @@ tools.extend(uc_toolkit.tools)
 # ]
 # tools.extend(vector_search_tools)
 
-# TODO: Add MCP tools
-# UC managed MCP server is not available in Free Edition
 
 #####################
 ## Define agent logic
@@ -85,9 +82,8 @@ tools.extend(uc_toolkit.tools)
 
 def create_tool_calling_agent(
     model: LanguageModelLike,
-    tools: Union[ToolNode, Sequence[BaseTool]],#Tools can be either an ToolNode or a Sequence[BaseTool]
+    tools: Union[Sequence[BaseTool], ToolNode],
     system_prompt: Optional[str] = None,
-#):
 ) -> CompiledGraph:
     model = model.bind_tools(tools)
 
@@ -173,7 +169,6 @@ class LangGraphChatAgent(ChatAgent):
 
 # Create the agent object, and specify it as the agent object to use when
 # loading the agent back for inference via mlflow.models.set_model()
-mlflow.langchain.autolog()
 agent = create_tool_calling_agent(llm, tools, system_prompt)
 AGENT = LangGraphChatAgent(agent)
 mlflow.models.set_model(AGENT)
