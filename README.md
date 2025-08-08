@@ -77,28 +77,28 @@ Steps of the project:
     - The workflow is managed outside the notebook to ensure proper orchestration, dependency handling, and monitoring, as is best practice with declarative pipelines and production ETL in the Databricks Lakehouse environment.
 
 2. EDA Step:
-Once the data is prepared and ready for analysis, the next phase is exploratory data analysis (EDA). The code for this stage can be found in the `02-Data-Science-ML/02.1-EDA` notebook. Here, data scientists will explore trends, visualize data distributions, and generate insights that inform the modeling process.
+Once the data is prepared and ready for analysis, the next phase is exploratory data analysis (EDA). The code for this stage can be found in the `04-Data-Science-ML/04.1-EDA` notebook. Here, data scientists will explore trends, visualize data distributions, and generate insights that inform the modeling process.
 
 3. Model Creation Step:
-In this phase, multiple models are developed and each step of experimentation is logged in MLflow. Unity Catalog offers seamless integration with MLflow, simplifying experiment tracking and model management. Within the `02-Data-Science-ML/02.2-predictive_model_creation` notebook, you will:
+In this phase, multiple models are developed and each step of experimentation is logged in MLflow. Unity Catalog offers seamless integration with MLflow, simplifying experiment tracking and model management. Within the `04-Data-Science-ML/04.2-predictive_model_creation` notebook, you will:
 
     - Create and run different model experiments.
     - Record experiment results in MLflow.
     - Register the final, chosen model as a production model in the MLflow model registry for easier deployment and governance.
 
 4. Model Deployment Step: 
-In this phase, the registered model is deployed as an endpoint to enable inference. You will use the `02-Data-Science-ML/02.3-model_deployment` notebook for this step. The deployment workflow typically includes:
+In this phase, the registered model is deployed as an endpoint to enable inference. You will use the `04-Data-Science-ML/04.3-model_deployment` notebook for this step. The deployment workflow typically includes:
 
     - Deploying the Model: The notebook guides you through deploying the chosen model from the MLflow model registry to a serving endpoint, making it accessible for real-time or batch predictions.
 
     - Batch Inference: After deployment, the same notebook demonstrates how to perform batch inference on a table—specifically, using one of the tables available in your catalog. This allows you to generate predictions at scale and store results back into your Lakehouse environment.
 
 5. Generative AI Steps:
-In this phase, you will leverage notebooks in the `03-Generative-AI` directory to add intelligent, AI-powered capabilities to your platform.
+In this phase, you will leverage notebooks in the `05-Generative-AI` directory to add intelligent, AI-powered capabilities to your platform.
 
-    `03.0-ai-tools` notebook: Develop a simple function designed to be used as a tool by an AI agent. This establishes the basic building blocks for agent-driven workflows.
+    `05.0-ai-tools` notebook: Develop a simple function designed to be used as a tool by an AI agent. This establishes the basic building blocks for agent-driven workflows.
 
-    `03.1-ai-tools-iot-turbine-prescriptive-maintenance` notebook: This notebook utilizes Databricks' generative AI capabilities for advanced analytics and automation tasks. The key actions include:
+    `05.1-ai-tools-iot-turbine-prescriptive-maintenance` notebook: This notebook utilizes Databricks' generative AI capabilities for advanced analytics and automation tasks. The key actions include:
 
     - Turbine Predictor Tool: Create a specialized tool that leverages AI to predict turbine failures, supporting prescriptive maintenance strategies.
 
@@ -108,10 +108,10 @@ In this phase, you will leverage notebooks in the `03-Generative-AI` directory t
 
     - AI Tool for Vector Search: Develop a tool that interfaces with the vector search index, enabling agents to retrieve contextually relevant information based on semantic similarity rather than traditional keyword search.
 
-    The remaining notebooks in the 03-Generative-AI directory serve as practical guides for creating and deploying agents using Databricks Apps. They provide step-by-step instructions and examples, demonstrating how to leverage Databricks’ platform tools to build, configure, and operationalize AI agents within your environment. These resources are designed to help you extend your workflow, enabling advanced automation and custom agent functionalities tailored to specific industrial IoT scenarios.
+    The remaining notebooks in the 05-Generative-AI directory serve as practical guides for creating and deploying agents using Databricks Apps. They provide step-by-step instructions and examples, demonstrating how to leverage Databricks’ platform tools to build, configure, and operationalize AI agents within your environment. These resources are designed to help you extend your workflow, enabling advanced automation and custom agent functionalities tailored to specific industrial IoT scenarios.
 
 
-Beyond the core workflow, the project includes additional resources found in several directories. The `04-Data-goverenence` directory offers best practices for access control, data lineage, and compliance, helping to ensure responsible data management. In `05-BI-Data-warehousing`, you'll find guidance on using Databricks SQL for analytics, dashboard creation, and business intelligence tasks. The `06-workflow-orchestration` directory provides information on how to schedule, automate, and monitor your data and ML pipelines effectively. Altogether, these materials serve as guides to help improve data security, analytics, and operational efficiency within your platform.
+Beyond the core workflow, the project includes additional resources found in several directories. The `02-Data-goverenence` directory offers best practices for access control, data lineage, and compliance, helping to ensure responsible data management. In `03-BI-Data-warehousing`, you'll find guidance on using Databricks SQL for analytics, dashboard creation, and business intelligence tasks. The `06-workflow-orchestration` directory provides information on how to schedule, automate, and monitor your data and ML pipelines effectively. Altogether, these materials serve as guides to help improve data security, analytics, and operational efficiency within your platform.
 
 
 ![](lakehouse-iot-platform/_resources/images/ref_architecture.png)
