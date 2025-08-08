@@ -113,3 +113,9 @@ In this phase, you will leverage notebooks in the `03-Generative-AI` directory t
 
 Beyond the core workflow, the project includes additional resources found in several directories. The `04-Data-goverenence` directory offers best practices for access control, data lineage, and compliance, helping to ensure responsible data management. In `05-BI-Data-warehousing`, you'll find guidance on using Databricks SQL for analytics, dashboard creation, and business intelligence tasks. The `06-workflow-orchestration` directory provides information on how to schedule, automate, and monitor your data and ML pipelines effectively. Altogether, these materials serve as guides to help improve data security, analytics, and operational efficiency within your platform.
 
+
+![](lakehouse-iot-platform/_resources/images/ref_architecture.png)
+
+
+
+
