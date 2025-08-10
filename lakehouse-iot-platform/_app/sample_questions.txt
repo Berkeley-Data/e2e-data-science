@@ -1,4 +1,4 @@
-What are the latest readings for turbine 004a641f-e9e5-9fff-d421-1bf88319420b?
+What are the latest sensor reading values for turbine 004a641f-e9e5-9fff-d421-1bf88319420b?
 Do you predict that this turbine is faulty?
 The VibeGuard TVS-950 is giving me an error code TVS-001.
 How do I fix a yaw drive system?
