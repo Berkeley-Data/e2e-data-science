@@ -60,22 +60,30 @@ The steps of this project include:
 5. Generative AI and Databricks Apps
 6. Workflow Orchestration
 
-![](lakehouse-iot-platform/_resources/images/e2e-0.png)
+![](lakehouse-iot-platform/_resources/images/e2eai-0.jpg)
 
+### Steps To Get Started:
 0. Initialization
 
-    To run the code and start the workflow, first execute the `00-IOT-wind-turbine-introduction-DI-platform` notebook in the lakehouse-iot-platform directory. This notebook explains the project and it contains a single line of code that:
+    Review the `config` file in the lakehouse-iot-platform directory.  Change the catalog or schema if you desire.
+
+    Read and run the `00-IOT-wind-turbine-introduction-DI-platform` notebook in the lakehouse-iot-platform directory. This notebook explains the project and it contains a single line of code that:
     1. Creates the catalog and schema where all metadata will be stored.
     2. Loads the required data into the designated AWS S3 bucket.
 
-    Once the notebook finishes running, you can verify the data load by navigating to Catalog → My Organization in the left panel and selecting `main.dbdemos_iotturbine.Volumes`. Seeing the data here confirms it has been loaded into S3 and is ready for ingestion by Databricks.
+    Once the notebook finishes running, you can verify the data load by navigating to Catalog → My Organization in the left panel and selecting `main.e2eai_iot_turbine.Volumes` (or whichever catalog and schema you set in your config file). Seeing the data here confirms it has been loaded into S3 and is ready for ingestion by Databricks.
 
 1. ETL Process
-    The ETL step for your project involves ingesting, cleaning, and transforming data, ultimately producing eight Delta Live Tables. All related code is located in the `01-Data-ingestion/01.1-DLT-Wind-Turbine-SQL` notebook. However, you cannot run this notebook directly, as it contains STREAMING TABLES defined in the Lakeflow Declarative Pipeline format.
+
+    The ETL step for your project involves ingesting, cleaning, and transforming data, ultimately producing eight tables. All related code is located in the `01-Data-ingestion/01.1-DLT-Wind-Turbine-SQL` notebook. However, you cannot run this notebook directly, as it contains STREAMING TABLES defined in the Lakeflow Declarative Pipeline format.
     
     To start the ETL process:
     - Go to the Jobs & Pipelines section in Databricks.
-    - Point the job or pipeline to this notebook and control execution from the orchestration UI, not from the notebook itself.
+    - Click `Create` button, and select `ETL Pipeline`. 
+    - Ensure `Lakeflow Pipelines Editor` is set to ON.
+    - Give your pipeline a name and change the cataloge and schema to the values in your `config` file.
+    - Click the Advanced Option for `Add existing assets` and point the pipeline to the 01 root folder and notebook 1.1.
+    - Click `Run` to start your pipeline from the UI. Alternatively, you can do a dry run first to test your pipeline.
 
     Key details:
     - The ETL process extracts data from source systems, cleans and transforms it, and loads it into production tables.
