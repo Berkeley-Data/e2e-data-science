@@ -6,3 +6,5 @@ langchain
 langchain-core
 langgraph==0.3.4
 databricks-agents
+databricks-openai
+backoff
