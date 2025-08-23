@@ -108,7 +108,9 @@ The steps of this project include:
 
 3. AI/BI Genie and Data Warehousing
 
-    In `03-BI-Data-warehousing`, you'll find guidance on using Databricks SQL for analytics, dashboard creation, and business intelligence tasks. 
+    In `03-BI-Data-warehousing`, you'll find guidance on using Databricks SQL for analytics, dashboard creation, and business intelligence tasks. Two example dashboards have been included in this repo (lakehouse-iot-platform/_dashboards/). You may need to adjust the catalog and schema on the data tab of the dashboards for all the querie to work.
+    
+    Also check out the AI/BI Genie.  It's available in Free Edition and can be easily enabled when you publish a dashboard.
 
 4. Data Science and ML
 
