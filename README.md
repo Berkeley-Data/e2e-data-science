@@ -92,7 +92,19 @@ The steps of this project include:
 
 2. Security and Governance
 
-    The `02-Data-goverenence` directory offers best practices for access control, data lineage, and compliance, helping to ensure responsible data management. 
+    The `02-Data-goverenence` notebook sets up grants for groups and offers best practices for access control, data lineage, and compliance, helping to ensure responsible data management.
+
+    Before running this notebook, create two groups for users:
+    - dataengineers
+    - analysts
+
+    Illustrated steps for group creation are given in the notebook and included here for reference:
+    1. Go to Settings under the circle for your profile in the top right corner
+    2. Under Workspace Admin, select `Identity and access`
+    3. Click the `Manage` button for Groups 
+    4. Click `Add Group`, then add each of the two groups mentioned above<br>
+
+    Once the groups are created, run the notebook. 
 
 3. AI/BI Genie and Data Warehousing
 
