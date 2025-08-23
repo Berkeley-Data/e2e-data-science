@@ -4,8 +4,10 @@
       "name": "8b43b1f7",
       "displayName": "IOT platform - turbine sensors",
       "queryLines": [
-        "SELECT * FROM `main`.`dbdemos_iot_turbine`.sensor_bronze;"
-      ]
+        "SELECT * FROM sensor_bronze;"
+      ],
+      "catalog": "main",
+      "schema": "e2eai_iot_turbine"
     },
     {
       "name": "abee8d55",
@@ -14,15 +16,17 @@
         "select * except (lat, long), \n",
         "  cast(lat as double) as lat, \n",
         "  cast(long as double) as long, \n",
-        "  CASE WHEN prediction = 'ok' THEN 'Healthy' ELSE CONCAT('Faulty (', prediction, ')') END as status \n",
-        "  from `main`.`dbdemos_iot_turbine`.turbine_current_status"
-      ]
+        "  CASE WHEN abnormal_sensor = 'ok' THEN 'Healthy' ELSE CONCAT('Faulty (', abnormal_sensor, ')') END as status \n",
+        "  from turbine_training_dataset"
+      ],
+      "catalog": "main",
+      "schema": "e2eai_iot_turbine"
     }
   ],
   "pages": [
     {
       "name": "7afb9ef1",
-      "displayName": "New Page",
+      "displayName": "Mock Page",
       "layout": [
         {
           "widget": {
