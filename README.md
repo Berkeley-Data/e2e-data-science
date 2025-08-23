@@ -65,6 +65,8 @@ The steps of this project include:
 ### Steps To Get Started:
 0. Initialization
 
+    TLDR: Review the config. Read and run the first notebook.
+
     Review the `config` file in the lakehouse-iot-platform directory.  Change the catalog or schema if you desire.
 
     Read and run the `00-IOT-wind-turbine-introduction-DI-platform` notebook in the lakehouse-iot-platform directory. This notebook explains the project and it contains a single line of code that:
@@ -74,6 +76,8 @@ The steps of this project include:
     Once the notebook finishes running, you can verify the data load by navigating to Catalog → My Organization in the left panel and selecting `main.e2eai_iot_turbine.Volumes` (or whichever catalog and schema you set in your config file). Seeing the data here confirms it has been loaded into S3 and is ready for ingestion by Databricks.
 
 1. ETL Process
+
+    TLDR: Create a pipeline to run this notebook. Do not run the notebook outside a pipeline. 
 
     The ETL step for your project involves ingesting, cleaning, and transforming data, ultimately producing eight tables. All related code is located in the `01-Data-ingestion/01.1-DLT-Wind-Turbine-SQL` notebook. However, you cannot run this notebook directly, as it contains STREAMING TABLES defined in the Lakeflow Declarative Pipeline format.
     
@@ -92,6 +96,8 @@ The steps of this project include:
 
 2. Security and Governance
 
+    TLDR: Set up groups, then run this notebook.
+
     The `02-Data-goverenence` notebook sets up grants for groups and offers best practices for access control, data lineage, and compliance, helping to ensure responsible data management.
 
     Before running this notebook, create two groups for users:
@@ -108,6 +114,8 @@ The steps of this project include:
 
 3. AI/BI Genie and Data Warehousing
 
+    TLDR: Read and explore this notebook.  There is no code to run, but check out the dashboards.
+
     In `03-BI-Data-warehousing`, you'll find guidance on using Databricks SQL for analytics, dashboard creation, and business intelligence tasks. Two example dashboards have been included in this repo (lakehouse-iot-platform/_dashboards/). You may need to adjust the catalog and schema on the data tab of the dashboards for all the querie to work.
     
     Also check out the AI/BI Genie.  It's available in Free Edition and can be easily enabled when you publish a dashboard.
@@ -116,10 +124,14 @@ The steps of this project include:
 
    4.1. EDA
    
+    TLDR: Run this notebook end to end.
+
     Once the data is prepared and ready for analysis, the next phase is exploratory data analysis (EDA). The code for this stage can be found in the `04-Data-Science-ML/04.1-EDA` notebook. Here, data scientists will explore trends, visualize data distributions, and generate insights that inform the modeling process.
 
    4.2. Model Creation
    
+    TLDR: Run this notebook end to end.
+    
     In this step, multiple models are developed and each step of experimentation is logged in MLflow. Unity Catalog offers seamless integration with MLflow, simplifying experiment tracking and model management. Within the `04-Data-Science-ML/04.2-predictive_model_creation` notebook, you will:
     - Create and run different model experiments.
     - Record experiment results in MLflow.
