@@ -65,7 +65,7 @@ The steps of this project include:
 ### Steps To Get Started:
 **0. Initialization**
 
-*TLDR: Review the config. Read and run the first notebook.*
+*TLDR: Review the config. Read and run the notebook.*
 
 Review the `config` file in the lakehouse-iot-platform directory.  Change the catalog or schema if you desire.
 
@@ -75,7 +75,7 @@ Read and run the `00-IOT-wind-turbine-introduction-DI-platform` notebook in the 
 
 Once the notebook finishes running, you can verify the data load by navigating to Catalog → My Organization in the left panel and selecting `main.e2eai_iot_turbine.Volumes` (or whichever catalog and schema you set in your config file). Seeing the data here confirms it has been loaded into S3 and is ready for ingestion by Databricks.
 
-**1. ETL Process**
+**1. Data Ingestion**
 
 *TLDR: Create a pipeline to run this notebook. Do not run the notebook outside a pipeline.* 
 
@@ -183,7 +183,7 @@ This notebook walks you through how to evaluate your agent and serve it.  Free E
     
 *TLDR: Follow the steps in this notebook*
 
-This notebook walks you through the steps to create an app on Databricks.  The repo includes all the files you will need to create a simple chat agent using the tools we built in section 4.
+This notebook walks you through the steps to create an app on Databricks.  The repo includes all the files you will need to create a simple chat agent using the tools we built in section 4.  While you are navigating around, check out the sample questions that have been provided for you in `e2e-data-science/lakehouse-iot-platform/_app/` to help with a quick test of your chat agent.
 
 5.6 MCP
 
