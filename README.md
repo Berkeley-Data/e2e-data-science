@@ -1,5 +1,5 @@
 # Databricks Free Edition: An End-to-End Applied Data Science Workflow
-## Academic Presentation Summary for Berkeley Immersion Students
+## Academic Presentation Summary for Students
 
 ### Overview
 This session presents an end-to-end demonstration using the recently launched Databricks Free Edition, a no-cost, non-commercial use version of the Databricks platform for students, educators, and hobbyists. The entire workflow showcases how to seamlessly build and operationalize both traditional Machine Learning (ML) and agentic solutions, leveraging open-source integrations. The demo is hands-on, with live code and direct GitHub repo integration in-session.
@@ -65,7 +65,7 @@ The steps of this project include:
 ### Steps To Get Started:
 **0. Initialization**
 
-TLDR: Review the config. Read and run the first notebook.
+*TLDR: Review the config. Read and run the first notebook.*
 
 Review the `config` file in the lakehouse-iot-platform directory.  Change the catalog or schema if you desire.
 
@@ -77,7 +77,7 @@ Once the notebook finishes running, you can verify the data load by navigating t
 
 **1. ETL Process**
 
-TLDR: Create a pipeline to run this notebook. Do not run the notebook outside a pipeline. 
+*TLDR: Create a pipeline to run this notebook. Do not run the notebook outside a pipeline.* 
 
 The ETL step for your project involves ingesting, cleaning, and transforming data, ultimately producing eight tables. All related code is located in the `01-Data-ingestion/01.1-DLT-Wind-Turbine-SQL` notebook. However, you cannot run this notebook directly, as it contains STREAMING TABLES defined in the Lakeflow Declarative Pipeline format.
     
@@ -96,7 +96,7 @@ Key details:
 
 **2. Security and Governance**
 
-TLDR: Create groups, then run this notebook.
+*TLDR: Create groups, then run this notebook.*
 
 The `02-Data-goverenence` notebook sets up grants for groups and offers best practices for access control, data lineage, and compliance, helping to ensure responsible data management.
 
@@ -114,7 +114,7 @@ Once the groups are created, run the notebook.
 
 **3. AI/BI Genie and Data Warehousing**
 
-TLDR: Read and explore this notebook.  There is no code to run, but check out the dashboards.
+*TLDR: Read and explore this notebook.  There is no code to run, but check out the dashboards.*
 
 In `03-BI-Data-warehousing`, you'll find guidance on using Databricks SQL for analytics, dashboard creation, and business intelligence tasks. Two example dashboards have been included in this repo (lakehouse-iot-platform/_dashboards/). You may need to adjust the catalog and schema on the data tab of the dashboards for all the querie to work.
     
@@ -124,13 +124,13 @@ Also check out the AI/BI Genie.  It's available in Free Edition and can be easil
 
 4.1. EDA
    
-TLDR: Run this notebook end to end.
+*TLDR: Run this notebook end to end.*
 
 Once the data is prepared and ready for analysis, the next phase is exploratory data analysis (EDA). The code for this stage can be found in the `04-Data-Science-ML/04.1-EDA` notebook. Here, data scientists will explore trends, visualize data distributions, and generate insights that inform the modeling process.
 
 4.2. Model Creation
    
-TLDR: Run this notebook end to end.
+*TLDR: Run this notebook end to end.*
     
 In this step, multiple models are developed and each step of experimentation is logged in MLflow. Unity Catalog offers seamless integration with MLflow, simplifying experiment tracking and model management. Within the `04-Data-Science-ML/04.2-predictive_model_creation` notebook, you will:
 - Create and run different model experiments.
@@ -139,7 +139,7 @@ In this step, multiple models are developed and each step of experimentation is 
 
 4.3. Model Deployment
 
-TLDR: Run this notebook end to end.
+*TLDR: Run this notebook end to end.*
 
 In this step, the registered model is deployed as an endpoint to enable inference. You will use the `04-Data-Science-ML/04.3-model_deployment` notebook for this step. The deployment workflow typically includes:
 - Deploying the Model: The notebook guides you through deploying the chosen model from the MLflow model registry to a serving endpoint, making it accessible for real-time or batch predictions.
@@ -147,51 +147,53 @@ In this step, the registered model is deployed as an endpoint to enable inferenc
 
 **5. Generative AI and Databricks Apps**
 
-    This section serves as practical guide for creating and deploying agents using Databricks Apps. It provides step-by-step instructions and examples, demonstrating how to leverage Databricks’ platform tools to build, configure, and operationalize AI agents within your environment. These resources are designed to help you extend your workflow, enabling advanced automation and custom agent functionalities tailored to specific industrial IoT scenarios.
+This section serves as practical guide for creating and deploying agents using Databricks Apps. It provides step-by-step instructions and examples, demonstrating how to leverage Databricks’ platform tools to build, configure, and operationalize AI agents within your environment. These resources are designed to help you extend your workflow, enabling advanced automation and custom agent functionalities tailored to specific industrial IoT scenarios.
 
-    5.1. AI Tools
+5.1. AI Tools
 
-    TLDR: Add a TOKEN and workspace ROOT, then run the notebook.
+*TLDR: Add a TOKEN and workspace ROOT, then run the notebook.*
 
-    `05.1-ai-tools-iot-turbine-prescriptive-maintenance` utilizes Databricks' generative AI capabilities for advanced analytics and automation tasks. The key actions include:
+`05.1-ai-tools-iot-turbine-prescriptive-maintenance` utilizes Databricks' generative AI capabilities for advanced analytics and automation tasks. The key actions include:
 
-    - Tool 1 - Turbine Spec Retriever Tool: Create a tool that queries a table and returns the sensor readings for a given turbine ID.  This is an example of a simple SQL function tool.
-    - Tool 2 - Turbine Predictor Tool: Create a tool that leverages the previously built ML model to predict turbine failures, supporting prescriptive maintenance strategies.
-    - Parsing and Saving Unstructured Data: Extract and store relevant text from unstructured sources such as PDF documents, making it available for downstream AI-powered search and analytics.
-    - Vector Search Endpoint Creation: Set up a vector search endpoint and assign a dedicated vector search index. This enables high-performance, semantic search across your dataset.
-    - Tool 3 - Turbine Maintenance Vector Search Tool: Develop a tool that interfaces with the vector search index, enabling agents to retrieve contextually relevant information based on semantic similarity rather than traditional keyword search.  This is an example of RAG as an agent tool.
+- Tool 1 - Turbine Spec Retriever Tool: Create a tool that queries a table and returns the sensor readings for a given turbine ID.  This is an example of a simple SQL function tool.
+- Tool 2 - Turbine Predictor Tool: Create a tool that leverages the previously built ML model to predict turbine failures, supporting prescriptive maintenance strategies.
+- Parsing and Saving Unstructured Data: Extract and store relevant text from unstructured sources such as PDF documents, making it available for downstream AI-powered search and analytics.
+- Vector Search Endpoint Creation: Set up a vector search endpoint and assign a dedicated vector search index. This enables high-performance, semantic search across your dataset.
+- Tool 3 - Turbine Maintenance Vector Search Tool: Develop a tool that interfaces with the vector search index, enabling agents to retrieve contextually relevant information based on semantic similarity rather than traditional keyword search.  This is an example of RAG as an agent tool.
 
-    5.2 Agent Creation Guide
+5.2 Agent Creation Guide
 
-    TLDR: Read this notebook
+*TLDR: Read this notebook*
 
-    Read this notebook and explore the UI to chat with your data and create an agent.
+Read this notebook and explore the UI to chat with your data and create an agent.
 
-    5.3 Agent via code
+5.3 Agent via code
 
-    TLDR: Optional to run this notebook.
+*TLDR: Optional to run this notebook.*
 
-    Run this notebook if you want to use code to build an agent instead of the UI.  This is optional if you already built your agent in step 5.2.
+Run this notebook if you want to use code to build an agent instead of the UI.  This is optional if you already built your agent in step 5.2.
 
-    5.4 Agent Eval and Serve
+5.4 Agent Eval and Serve
 
-    TLDR: Run this notebook.
+*TLDR: Run this notebook.*
 
-    This notebook walks you through how to evaluate your agent and serve it.  Free Edition is limited to 1 serving endpoint, so while the code is provided for serving your agent, the available endpoint is already consumed by our ML model that we served.
+This notebook walks you through how to evaluate your agent and serve it.  Free Edition is limited to 1 serving endpoint, so while the code is provided for serving your agent, the available endpoint is already consumed by our ML model that we served.
 
-    5.5 Agent App
+5.5 Agent App
     
-    TLDR: Follow the steps in this notebook
+*TLDR: Follow the steps in this notebook*
 
-    This notebook walks you through the steps to create an app on Databricks.  The repo includes all the files you will need to create a simple chat agent using the tools we built in section 4.
+This notebook walks you through the steps to create an app on Databricks.  The repo includes all the files you will need to create a simple chat agent using the tools we built in section 4.
 
-    5.6 MCP
+5.6 MCP
 
-    TLDR: Read and explore
+*TLDR: Read and explore*
 
 **6. Workflow Orchestration**
 
-    The `06-workflow-orchestration` directory provides information on how to schedule, automate, and monitor your data and ML pipelines effectively. Altogether, these materials serve as guides to help improve data security, analytics, and operational efficiency within your platform.
+*TLDR: Read and explore this notebook*
+
+The `06-workflow-orchestration` directory provides information on how to schedule, automate, and monitor your data and ML pipelines effectively. Altogether, these materials serve as guides to help improve data security, analytics, and operational efficiency within your platform.
 
 
 
