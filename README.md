@@ -50,19 +50,9 @@ This demo encapsulates the state-of-the-art in reproducible, open science workfl
 
 The session is designed to inspire, inform, and empower early-career researchers with direct exposure to end-to-end, open-source-powered analytics and AI workflows.
 
-The steps of this project include:
-
-0. Initialization (loads the data)
-1. ETL Processing with Declarative Pipelines
-2. Security and Governance with Unity Catalog
-3. AI/BI with Genie (light EDA)
-4. Data Science & ML
-5. Generative AI and Databricks Apps
-6. Workflow Orchestration
-
 ![](lakehouse-iot-platform/_resources/images/e2eai-0.jpg)
 
-### Steps To Get Started:
+### To Get Started:
 **0. Initialization**
 
 *TLDR: Review the config. Read and run the notebook.*
@@ -130,7 +120,7 @@ Once the data is prepared and ready for analysis, the next phase is exploratory 
 
 4.2. Model Creation
    
-*TLDR: Run this notebook end to end.*
+*TLDR: Run this notebook end to end. It can take 30+ minutes to run.*
     
 In this step, multiple models are developed and each step of experimentation is logged in MLflow. Unity Catalog offers seamless integration with MLflow, simplifying experiment tracking and model management. Within the `04-Data-Science-ML/04.2-predictive_model_creation` notebook, you will:
 - Create and run different model experiments.
