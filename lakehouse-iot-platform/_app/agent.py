@@ -57,7 +57,7 @@ tools = []
 
 # You can use UDFs in Unity Catalog as agent tools
 uc_tool_names = ["main.e2eai_iot_turbine.turbine_specifications_retriever", 
-#                 "main.e2eai_iot_turbine.turbine_maintenance_predictor", 
+                 "main.e2eai_iot_turbine.turbine_maintenance_predictor", 
                  "main.e2eai_iot_turbine.turbine_maintenance_guide_retriever"]
 uc_toolkit = UCFunctionToolkit(function_names=uc_tool_names)
 tools.extend(uc_toolkit.tools)

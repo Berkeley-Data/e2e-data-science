@@ -8,4 +8,4 @@ env:
   - name: STREAMLIT_BROWSER_GATHER_USAGE_STATS
     value: "false"
   - name: "SERVING_ENDPOINT"
-    value: "e2eai_iot_turbine_prediction_endpoint"
+    valueFrom: "serving_endpoint"
