@@ -5,58 +5,70 @@
       "displayName": "IOT platform Wind Turbines faulty parts count",
       "queryLines": [
         "select type, count(*) faulty_equipment_count from (select turbine_id, state, country, prediction as fault, model, lat, long \n",
-        "from `main`.`dbdemos_iot_turbine`.turbine_current_status  where prediction != 'ok' limit 18) as t\n",
-        "left join `main`.`dbdemos_iot_turbine`.parts p on t.state=p.stock_location\n",
+        "from turbine_current_status  where prediction != 'ok' limit 18) as t\n",
+        "left join parts p on t.state=p.stock_location\n",
         "where stock_available = 0 \n",
         "group by type\n",
         "order by faulty_equipment_count desc"
-      ]
+      ],
+      "catalog": "main",
+      "schema": "e2eai_iot_turbine"
     },
     {
       "name": "a80f9a9e",
       "displayName": "IOT platform Wind Turbines stats faulty",
       "queryLines": [
         "with test as (select status, sum(avg_energy) as energy_produced, avg(avg_energy) as avg_energy, count(*)/10 as count from \n",
-        "(select *, case when prediction == 'ok' then 'ok' else 'faulty' end as status from `main`.`dbdemos_iot_turbine`.turbine_current_status ) \n",
+        "(select *, case when prediction == 'ok' then 'ok' else 'faulty' end as status from turbine_current_status ) \n",
         "group by status)\n",
         "\n",
         "select *, avg_energy/other_status_avg_energy*10 as efficiency_loss from (select *, LAG(avg_energy, -1) OVER (ORDER BY status) as other_status_avg_energy from test)\n",
         "\n",
         "-- , LAG(avg_energy) OVER (ORDER BY status) as other_status_avg_energy, other_status_avg_energy/avg_energy "
-      ]
+      ],
+      "catalog": "main",
+      "schema": "e2eai_iot_turbine"
     },
     {
       "name": "c94d0002",
       "displayName": "IOT platform Wind Turbines stats",
       "queryLines": [
-        "select sum(avg_energy) as energy_produced, sum(avg_energy) * 110 as revenue_per_hour from `main`.`dbdemos_iot_turbine`.turbine_current_status "
-      ]
+        "select sum(avg_energy) as energy_produced, sum(avg_energy) * 110 as revenue_per_hour from turbine_current_status "
+      ],
+      "catalog": "main",
+      "schema": "e2eai_iot_turbine"
     },
     {
       "name": "3beb98f7",
       "displayName": "IOT platform Wind Turbines faulty parts",
       "queryLines": [
         "select EAN, type, approvisioning_estimated_days, state, count(*) c from (select turbine_id, state, country, prediction as fault, model, lat, long \n",
-        "from `main`.`dbdemos_iot_turbine`.turbine_current_status where prediction != 'ok' limit 18) as t\n",
-        "left join `main`.`dbdemos_iot_turbine`.parts p on t.state=p.stock_location\n",
+        "from turbine_current_status where prediction != 'ok' limit 18) as t\n",
+        "left join parts p on t.state=p.stock_location\n",
         "where stock_available = 0 \n",
         "group by EAN, type, approvisioning_estimated_days, state\n",
         "order by c desc"
-      ]
+      ],
+      "catalog": "main",
+      "schema": "e2eai_iot_turbine"
     },
     {
       "name": "59e42cd7",
       "displayName": "IOT platform Wind Turbines faulty",
       "queryLines": [
-        "select turbine_id, prediction as fault, model, state, lat, long, country from `main`.`dbdemos_iot_turbine`.turbine_current_status where prediction != 'ok' limit 18"
-      ]
+        "select turbine_id, prediction as fault, model, state, lat, long, country from turbine_current_status where prediction != 'ok' limit 18"
+      ],
+      "catalog": "main",
+      "schema": "e2eai_iot_turbine"
     },
     {
       "name": "0759c8c5",
       "displayName": "Turbine power prediction",
       "queryLines": [
-        "select *, current_timestamp() + interval '1 hour' * h as time from ( select *, hour as h from `main`.`dbdemos_iot_turbine`.turbine_power_prediction);"
-      ]
+        "select *, current_timestamp() + interval '1 hour' * h as time from ( select *, hour as h from turbine_power_prediction);"
+      ],
+      "catalog": "main",
+      "schema": "e2eai_iot_turbine"
     },
     {
       "name": "03d81d62",
@@ -65,14 +77,16 @@
         "select  * except (lat, long), \n",
         "  cast(lat as double) as lat, \n",
         "  cast(long as double) as long\n",
-        "  from `main`.`dbdemos_iot_turbine`.turbine_current_status;"
-      ]
+        "  from turbine_current_status;"
+      ],
+      "catalog": "main",
+      "schema": "e2eai_iot_turbine"
     }
   ],
   "pages": [
     {
       "name": "0594f5bf",
-      "displayName": "New Page",
+      "displayName": "Mock Page",
       "layout": [
         {
           "widget": {
@@ -508,5 +522,10 @@
       ],
       "pageType": "PAGE_TYPE_CANVAS"
     }
-  ]
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    }
+  }
 }
