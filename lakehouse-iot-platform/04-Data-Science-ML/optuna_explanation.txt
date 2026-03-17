@@ -1,0 +1,126 @@
+OPTUNA: HYPERPARAMETER OPTIMIZATION
+=====================================
+
+WHAT IS OPTUNA?
+---------------
+Optuna is an open-source framework for automatic hyperparameter optimization.
+Instead of manually guessing which settings work best for a machine learning
+model, Optuna systematically searches for the best combination.
+
+Think of it like baking a cake:
+- You know the ingredients (hyperparameters): oven temperature, baking time, sugar amount
+- You know what "good" tastes like (accuracy score)
+- Instead of baking 100 random cakes, Optuna learns from each attempt
+- After baking cake #3 at 350F and getting a 7/10, it thinks:
+  "Maybe I should try closer to 375F next time" rather than jumping to 500F
+- This is called Bayesian optimization -- each trial informs the next
+
+KEY CONCEPT: SEARCH SPACE vs. VALUE SELECTION
+----------------------------------------------
+When you write:
+    cl_max_depth = trial.suggest_int('max_depth', 2, 15)
+
+This does NOT mean "use 2 or 15." It means:
+- You define the BOUNDARIES: "max_depth can be any integer from 2 to 15"
+- Optuna CHOOSES the specific value (e.g., 7, 3, 12, etc.)
+- On trial 1, it might pick 8. On trial 2, it might pick 4.
+- Each pick is informed by how previous trials performed.
+
+You set the search space (the range). Optuna picks the values within that range.
+
+
+HOW OPTUNA IS USED IN THIS NOTEBOOK (04.2-predictive_model_creation.ipynb)
+==========================================================================
+
+The notebook builds predictive models for IoT turbine data. It starts with
+simpler models (Logistic Regression, basic XGBoost), then uses Optuna to
+find the best XGBoost hyperparameters.
+
+STEP 1: MLflow Callback Setup
+------------------------------
+    mlflow_callback = MLflowCallback(
+        tracking_uri='databricks',
+        metric_name="accuracy",
+        create_experiment=False,
+        mlflow_kwargs={"nested": True},
+        tag_trial_user_attrs=True
+    )
+
+This connects Optuna to MLflow so every trial is automatically logged.
+- tracking_uri='databricks' -- logs to the Databricks MLflow server
+- metric_name="accuracy" -- tells MLflow which metric Optuna is optimizing
+- nested=True -- each trial becomes a "child run" under a parent run,
+  keeping everything organized in the MLflow UI
+
+STEP 2: The Objective Function
+-------------------------------
+    def objective(trial):
+        cl_num_class = trial.suggest_int('num_class', 2, 10)
+        cl_max_depth = trial.suggest_int('max_depth', 2, 15)
+        cl_n_estimators = trial.suggest_int('n_estimators', 10, 100)
+
+        classifier_obj = XGBClassifier(
+            objective="multi:softprob",
+            num_class=cl_num_class,
+            max_depth=cl_max_depth,
+            n_estimators=cl_n_estimators,
+            learning_rate=0.1,
+            use_label_encoder=False,
+            eval_metric="mlogloss"
+        )
+
+        classifier_obj.fit(X_train, y_train)
+        y_pred = classifier_obj.predict(X_test)
+        acc = accuracy_score(y_test, y_pred)
+        return acc
+
+This function is what Optuna calls on each trial. Breaking it down:
+
+1. Three hyperparameters are being optimized:
+   - num_class (2 to 10): number of output classes
+   - max_depth (2 to 15): how deep each decision tree can grow
+   - n_estimators (10 to 100): how many trees to build
+
+2. An XGBoost classifier is created with Optuna's chosen values
+
+3. The model is trained on training data and evaluated on test data
+
+4. The accuracy score is returned -- this is what Optuna tries to maximize
+
+STEP 3: Running the Optimization
+----------------------------------
+    study = optuna.create_study(direction="maximize")
+    study.optimize(objective, n_trials=10, callbacks=[mlflow_callback])
+
+- direction="maximize" -- we want the HIGHEST accuracy
+  (use "minimize" for metrics like loss or error)
+- n_trials=10 -- Optuna will run 10 experiments
+- callbacks=[mlflow_callback] -- each trial is logged to MLflow
+
+STEP 4: Using the Best Parameters
+-----------------------------------
+After optimization, the notebook retrieves the best hyperparameters:
+
+    study.best_params  -- returns a dictionary like {'num_class': 5, 'max_depth': 9, 'n_estimators': 72}
+    study.best_value   -- returns the best accuracy achieved
+
+The notebook then trains a final model using these best parameters and
+logs it to MLflow as the production-ready model.
+
+HOW TO VIEW RESULTS
+-------------------
+1. In the notebook: print(study.best_params) and print(study.best_value)
+2. In MLflow UI: Go to the experiment, expand the parent run to see all
+   10 child runs with their hyperparameters and accuracy scores
+3. Optuna also provides visualization functions:
+   - optuna.visualization.plot_optimization_history(study)
+   - optuna.visualization.plot_param_importances(study)
+
+SUMMARY
+-------
+Without Optuna: You manually try different hyperparameter values, which is
+slow, tedious, and unlikely to find the best combination.
+
+With Optuna: You define the ranges, Optuna intelligently explores the space,
+and after 10 trials you get the best-performing configuration -- all
+automatically tracked in MLflow.
