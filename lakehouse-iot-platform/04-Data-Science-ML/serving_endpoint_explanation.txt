@@ -1,0 +1,134 @@
+DATABRICKS MODEL SERVING ENDPOINTS: WHAT HAPPENS UNDER THE HOOD
+=================================================================
+
+When you create a Databricks Model Serving endpoint, here is the full
+lifecycle from creation to serving predictions.
+
+
+1. MODEL RETRIEVAL
+------------------
+When you trigger endpoint creation (via UI, SDK, or REST API), Databricks
+first pulls your model artifact from the MLflow Model Registry (Unity
+Catalog or Workspace Registry). This includes:
+
+- The serialized model file (e.g., pickle for sklearn, XGBoost binary, etc.)
+- The MLmodel file (metadata: flavor, signature, input/output schema)
+- The requirements.txt or conda.yaml (Python dependencies)
+- Any additional artifacts you logged (e.g., custom files, config)
+
+
+2. CONTAINER BUILDING
+---------------------
+Databricks builds a Docker container tailored to your model:
+
+- Installs the exact Python version and dependencies from your model's environment
+- Loads the model into memory using the appropriate MLflow flavor
+  (mlflow.sklearn, mlflow.xgboost, mlflow.pyfunc, etc.)
+- Wraps it in a scoring server -- a lightweight REST API (Flask-based)
+  that accepts JSON requests and returns predictions
+- This is why specifying correct pip_requirements when logging matters --
+  wrong deps = failed container build
+
+
+3. INFRASTRUCTURE PROVISIONING
+------------------------------
+Databricks provisions serverless compute behind the scenes:
+
+- Allocates CPU or GPU instances based on your workload configuration
+- For serverless endpoints (default): Databricks manages the infrastructure entirely
+- For provisioned throughput: dedicated capacity is reserved
+- Sets up networking, load balancers, and TLS termination for the REST API URL
+
+
+4. AUTO-SCALING CONFIGURATION
+-----------------------------
+The endpoint is configured with scaling rules:
+
+- Scale-to-zero: if no traffic, instances spin down to 0 (you pay nothing)
+- Min/max instances: you can set boundaries
+- Concurrency-based scaling: as request volume increases, more replicas are spun up
+- This is why the first request after idle can be slow ("cold start")
+
+
+5. HEALTH CHECKS & READINESS
+-----------------------------
+Before marking the endpoint as READY:
+
+- Databricks sends health check pings to the container
+- Verifies the model loads without errors
+- Validates that a test prediction works
+- This is the ~15 minute wait you see -- it's building, deploying, and validating
+
+
+6. TRAFFIC ROUTING
+------------------
+Once ready, incoming requests flow through:
+
+    Client Request (REST/SDK)
+        -> Load Balancer
+            -> API Gateway (auth, rate limiting)
+                -> Scoring Container (your model)
+                    -> Prediction returned
+
+
+7. SERVING A PREDICTION (at request time)
+-----------------------------------------
+When a request hits the endpoint:
+
+1. Authentication -- validates the token (PAT or OAuth)
+2. Input parsing -- deserializes JSON into the format your model expects
+   (DataFrame, tensor, etc.)
+3. Schema validation -- checks against the model signature you defined
+4. Model inference -- calls model.predict() on the input
+5. Output serialization -- converts predictions back to JSON
+6. Response -- returns to the caller
+
+
+8. VERSIONING & TRAFFIC SPLITTING
+----------------------------------
+You can serve multiple model versions on one endpoint:
+
+- Route 90% traffic to v1, 10% to v2 (A/B testing)
+- Gradually shift traffic during model upgrades
+- Roll back instantly if the new version underperforms
+
+
+VISUAL SUMMARY
+--------------
+
+You: "Create endpoint with model v3"
+         |
+         v
++------------------------+
+|  Pull model artifact   |  <-- MLflow Registry / Unity Catalog
+|  + dependencies        |
++-----------+------------+
+            v
++------------------------+
+|  Build container       |  <-- Docker image with model + deps
+|  Install packages      |
++-----------+------------+
+            v
++------------------------+
+|  Provision compute     |  <-- Serverless infra, load balancer
+|  Configure scaling     |
++-----------+------------+
+            v
++------------------------+
+|  Health checks pass    |  <-- Status: READY
++-----------+------------+
+            v
+    Endpoint live at
+    https://<workspace>.databricks.com/serving-endpoints/<name>/invocations
+
+
+EXAMPLE: YOUR NOTEBOOK
+----------------------
+If you deploy the Optuna-optimized XGBoost model from the notebook
+(04.2-predictive_model_creation.ipynb), Databricks would:
+
+1. Pull the MLflow-logged model (with the best hyperparameters Optuna found)
+2. Package it with XGBoost and scikit-learn dependencies
+3. Containerize it into a Docker image
+4. Expose a REST endpoint that accepts turbine sensor features as JSON
+5. Return damage predictions in real time
