@@ -9,3 +9,6 @@ env:
     value: "false"
   - name: "SERVING_ENDPOINT"
     valueFrom: "serving_endpoint"
+
+dependencies:
+  - requirements.txt

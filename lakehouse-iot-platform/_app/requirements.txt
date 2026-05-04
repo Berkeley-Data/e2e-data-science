@@ -8,3 +8,4 @@ langgraph==0.3.4
 databricks-agents
 databricks-openai
 backoff
+openai
